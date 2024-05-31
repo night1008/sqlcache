@@ -9,8 +9,9 @@ import (
 // Item represents a single item in cache and will contain the results of a
 // single SQL query.
 type Item struct {
-	Cols []string
-	Rows [][]driver.Value
+	Cols              []string
+	DatabaseTypeNames []string
+	Rows              [][]driver.Value
 }
 
 // Cacher represents a backend cache that can be used by sqlcache package.

@@ -17,6 +17,13 @@ func (r *rowsCached) Columns() []string {
 	return r.Item.Cols
 }
 
+func (r *rowsCached) ColumnTypeDatabaseTypeName(index int) string {
+	if index < len(r.Item.DatabaseTypeNames) {
+		return r.Item.DatabaseTypeNames[index]
+	}
+	return ""
+}
+
 func (r *rowsCached) Next(dest []driver.Value) error {
 	if r.ptr >= len(r.Item.Rows) {
 		return io.EOF

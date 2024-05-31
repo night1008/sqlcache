@@ -28,7 +28,22 @@ type rowsRecorder struct {
 
 func (r *rowsRecorder) Columns() []string {
 	r.item.Cols = r.dr.Columns()
+	databaseTypeNames, ok := r.dr.(driver.RowsColumnTypeDatabaseTypeName)
+	if ok {
+		r.item.DatabaseTypeNames = make([]string, len(r.item.Cols))
+		for i := range r.item.Cols {
+			r.item.DatabaseTypeNames[i] = databaseTypeNames.ColumnTypeDatabaseTypeName(i)
+		}
+	}
 	return r.item.Cols
+}
+
+func (r *rowsRecorder) ColumnTypeDatabaseTypeName(index int) string {
+	databaseTypeNames, ok := r.dr.(driver.RowsColumnTypeDatabaseTypeName)
+	if ok {
+		return databaseTypeNames.ColumnTypeDatabaseTypeName(index)
+	}
+	return ""
 }
 
 func (r *rowsRecorder) Close() error {
