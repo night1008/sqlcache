@@ -7,9 +7,9 @@ import (
 	"github.com/prashanthpai/sqlcache/cache"
 )
 
-func newRowsRecorder(setter func(item *cache.Item), rows driver.Rows, maxRows int) *rowsRecorder {
+func newRowsRecorder(setter func(item *cache.Item), rows driver.Rows, maxRows int, query string) *rowsRecorder {
 	return &rowsRecorder{
-		item:    new(cache.Item),
+		item:    &cache.Item{Query: query},
 		setter:  setter,
 		maxRows: maxRows,
 		dr:      rows,

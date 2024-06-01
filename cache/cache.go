@@ -12,6 +12,7 @@ type Item struct {
 	Cols              []string
 	DatabaseTypeNames []string
 	Rows              [][]driver.Value
+	Query             string
 }
 
 // Cacher represents a backend cache that can be used by sqlcache package.
