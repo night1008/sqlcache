@@ -6,12 +6,13 @@ import (
 )
 
 var (
-	attrRegexp = regexp.MustCompile(`(@cache-ttl|@cache-max-rows) (\d+)`)
+	attrRegexp = regexp.MustCompile(`(@cache-ttl|@cache-max-rows|@cache-query-string) (\d+)`)
 )
 
 type attributes struct {
-	ttl     int
-	maxRows int
+	ttl              int
+	maxRows          int
+	cacheQueryString bool
 }
 
 func getAttrs(query string) *attributes {
@@ -32,6 +33,9 @@ func getAttrs(query string) *attributes {
 		case "@cache-max-rows":
 			maxRows, _ := strconv.Atoi(match[2])
 			attrs.maxRows = maxRows
+		case "@cache-query-string":
+			cacheQueryString, _ := strconv.Atoi(match[2])
+			attrs.cacheQueryString = cacheQueryString != 0
 		}
 	}
 

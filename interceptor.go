@@ -126,7 +126,11 @@ func (i *Interceptor) StmtQueryContext(ctx context.Context, conn driver.StmtQuer
 		}
 	}
 
-	rows = newRowsRecorder(cacheSetter, rows, attrs.maxRows, query)
+	var queryString string
+	if attrs.cacheQueryString {
+		queryString = query
+	}
+	rows = newRowsRecorder(cacheSetter, rows, attrs.maxRows, queryString)
 	return ctx, rows, err
 }
 
@@ -173,7 +177,11 @@ func (i *Interceptor) ConnQueryContext(ctx context.Context, conn driver.QueryerC
 		}
 	}
 
-	rows = newRowsRecorder(cacheSetter, rows, attrs.maxRows, query)
+	var queryString string
+	if attrs.cacheQueryString {
+		queryString = query
+	}
+	rows = newRowsRecorder(cacheSetter, rows, attrs.maxRows, queryString)
 	return ctx, rows, err
 }
 
