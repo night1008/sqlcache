@@ -16,10 +16,7 @@ type attributes struct {
 }
 
 func getAttrs(query string) *attributes {
-	matches := attrRegexp.FindAllStringSubmatch(query, 2)
-	if len(matches) != 2 {
-		return nil
-	}
+	matches := attrRegexp.FindAllStringSubmatch(query, -1)
 
 	var attrs attributes
 	for _, match := range matches {
@@ -37,6 +34,10 @@ func getAttrs(query string) *attributes {
 			cacheQueryString, _ := strconv.Atoi(match[2])
 			attrs.cacheQueryString = cacheQueryString != 0
 		}
+	}
+
+	if attrs.ttl == 0 || attrs.maxRows == 0 {
+		return nil
 	}
 
 	return &attrs
