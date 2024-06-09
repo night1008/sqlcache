@@ -207,6 +207,27 @@ func (i *Interceptor) checkCache(ctx context.Context, hash string) driver.Rows {
 	}
 }
 
+func (i *Interceptor) CheckCache(ctx context.Context, query string, args []driver.NamedValue) driver.Rows {
+	if i.disabled {
+		return nil
+	}
+
+	attrs := getAttrs(query)
+	if attrs == nil {
+		return nil
+	}
+
+	hash, err := i.hashFunc(query, args)
+	if err != nil {
+		if i.onErr != nil {
+			i.onErr(fmt.Errorf("HashFunc failed: %w", err))
+		}
+		return nil
+	}
+
+	return i.checkCache(ctx, hash)
+}
+
 // Stats contains sqlcache statistics.
 type Stats struct {
 	Hits   uint64
