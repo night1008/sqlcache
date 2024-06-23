@@ -3,13 +3,14 @@ package sqlcache
 import (
 	"database/sql/driver"
 	"io"
+	"time"
 
 	"github.com/prashanthpai/sqlcache/cache"
 )
 
 func newRowsRecorder(setter func(item *cache.Item), rows driver.Rows, maxRows int, query string) *rowsRecorder {
 	return &rowsRecorder{
-		item:    &cache.Item{Query: query},
+		item:    &cache.Item{Query: query, QueryAt: time.Now().UnixMilli()},
 		setter:  setter,
 		maxRows: maxRows,
 		dr:      rows,
