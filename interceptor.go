@@ -201,7 +201,7 @@ func (i *Interceptor) checkCache(ctx context.Context, hash string) driver.Rows {
 	}
 	atomic.AddUint64(&i.stats.Hits, 1)
 
-	return &rowsCached{
+	return &RowsCached{
 		item,
 		0,
 	}

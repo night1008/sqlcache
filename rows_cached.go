@@ -7,24 +7,24 @@ import (
 	"github.com/prashanthpai/sqlcache/cache"
 )
 
-// rowsCached implements driver.Rows interface
-type rowsCached struct {
+// RowsCached implements driver.Rows interface
+type RowsCached struct {
 	*cache.Item
 	ptr int
 }
 
-func (r *rowsCached) Columns() []string {
+func (r *RowsCached) Columns() []string {
 	return r.Item.Cols
 }
 
-func (r *rowsCached) ColumnTypeDatabaseTypeName(index int) string {
+func (r *RowsCached) ColumnTypeDatabaseTypeName(index int) string {
 	if index < len(r.Item.DatabaseTypeNames) {
 		return r.Item.DatabaseTypeNames[index]
 	}
 	return ""
 }
 
-func (r *rowsCached) Next(dest []driver.Value) error {
+func (r *RowsCached) Next(dest []driver.Value) error {
 	if r.ptr >= len(r.Item.Rows) {
 		return io.EOF
 	}
@@ -37,6 +37,6 @@ func (r *rowsCached) Next(dest []driver.Value) error {
 	return nil
 }
 
-func (r *rowsCached) Close() error {
+func (r *RowsCached) Close() error {
 	return nil
 }
