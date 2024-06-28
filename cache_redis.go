@@ -46,6 +46,14 @@ func (r *Redis) Set(ctx context.Context, key string, item *cache.Item, ttl time.
 	return err
 }
 
+// Del delete item from cache
+func (r *Redis) Del(ctx context.Context, keys ...string) error {
+	if len(keys) == 0 {
+		return nil
+	}
+	return r.c.Del(ctx, keys...).Err()
+}
+
 // NewRedis creates a new instance of redis backend using go-redis client.
 // All keys created in redis by sqlcache will have start with prefix.
 func NewRedis(c redis.UniversalClient, keyPrefix string) *Redis {

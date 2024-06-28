@@ -39,6 +39,14 @@ func (r *Ristretto) Set(ctx context.Context, key string, item *cache.Item, ttl t
 	return nil
 }
 
+// Del delete item from cache
+func (r *Ristretto) Del(ctx context.Context, keys ...string) error {
+	for _, key := range keys {
+		r.c.Del(key)
+	}
+	return nil
+}
+
 // NewRistretto creates a new instance of ristretto backend wrapping the
 // provided *ristretto.Cache instance. While creating the ristretto
 // instance, please note that number of rows will be used as "cost"

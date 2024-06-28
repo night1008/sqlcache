@@ -64,6 +64,20 @@ func (_m *Cacher) Set(ctx context.Context, key string, item *cache.Item, ttl tim
 	return r0
 }
 
+// Set provides a mock function with given fields: ctx, keys
+func (_m *Cacher) Del(ctx context.Context, keys ...string) error {
+	ret := _m.Called(ctx, keys)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, ...string) error); ok {
+		r0 = rf(ctx, keys...)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
 type mockConstructorTestingTNewCacher interface {
 	mock.TestingT
 	Cleanup(func())

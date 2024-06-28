@@ -24,4 +24,6 @@ type Cacher interface {
 	Get(ctx context.Context, key string) (*Item, bool, error)
 	// Set sets the item into cache with the given TTL.
 	Set(ctx context.Context, key string, item *Item, ttl time.Duration) error
+	// Del delete item from cache
+	Del(ctx context.Context, keys ...string) error
 }
