@@ -228,6 +228,11 @@ func (i *Interceptor) CheckCache(ctx context.Context, query string, args []drive
 	return i.checkCache(ctx, hash)
 }
 
+func (i *Interceptor) HasCacheAttr(query string) bool {
+	attrs := getAttrs(query)
+	return attrs != nil
+}
+
 // Stats contains sqlcache statistics.
 type Stats struct {
 	Hits   uint64
