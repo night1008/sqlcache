@@ -51,7 +51,11 @@ func (r *Redis) Del(ctx context.Context, keys ...string) error {
 	if len(keys) == 0 {
 		return nil
 	}
-	return r.c.Del(ctx, keys...).Err()
+	newKeys := make([]string, 0, len(keys))
+	for _, key := range keys {
+		newKeys = append(newKeys, r.keyPrefix+key)
+	}
+	return r.c.Del(ctx, newKeys...).Err()
 }
 
 // NewRedis creates a new instance of redis backend using go-redis client.
